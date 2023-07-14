@@ -1,0 +1,17 @@
+.change-pass {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    .change-pass-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 20px;
+        label {
+            text-align: left;
+        }
+    }
+}
