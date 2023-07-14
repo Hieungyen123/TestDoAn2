@@ -4,7 +4,7 @@ const router = express.Router();
 const JwtUtil = require('../untils/JwtUnitil.js');
 // daos
 const AdminDAO = require('../models/adminDao.js');
-const CategoryDAO = require('../models/CategoryDao.js');
+const CategoryDAO = require('../models/CategoryDAO.js');
 const ProductDAO = require('../models/ProductDao.js');
 const OrderDao = require('../models/OrderDAO.js')
 const CustomerDAO = require('../models/customer1DAO.js');
