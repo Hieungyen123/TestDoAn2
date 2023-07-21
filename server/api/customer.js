@@ -18,45 +18,64 @@ router.get('/categories', async function (req, res) {
 });
 // product
 router.get('/products/new', async function (req, res) {
-  const products = await ProductDAO.selectTopNew(3);
+  const products = await ProductDAO.selectTopNew(11);
   res.json(products);
 });
 router.get('/products/hot', async function (req, res) {
   const products = await ProductDAO.selectTopHot(3);
   res.json(products);
 });
+
+
 router.get('/products/category/:cid', async function (req, res) {
+  const categories = await CategoryDAO.selectAll();
   const _cid = req.params.cid;
-  const products = await ProductDAO.selectByCatID(_cid);
-  res.json(products);
+  var products = await ProductDAO.selectByCatID(_cid);
+  
+  const sizePage = 8;
+  const noPages = Math.ceil(products.length / sizePage);
+  var curPage = 1;
+  if (req.query.page)
+    curPage = parseInt(req.query.page); // /products?page=xxx
+  const offset = (curPage - 1) * sizePage;
+  products = products.slice(offset, offset + sizePage);
+  // return
+  const result = { products: products, noPages: noPages, curPage: curPage ,categories: categories};
+  res.json(result);
 });
-// router.get('/products', async function (req, res) {
-//   const products = await ProductDAO.selectAll();
-//   // console.log(products)
-//   res.json(products);
-// });
-router.get('/products',  async function (req, res) {
+
+router.get('/products/category', async function (req, res) {
   // get data
   var products = await ProductDAO.selectAll();
+  const categories = await CategoryDAO.selectAll();
   // pagination
   const sizePage = 8;
   const noPages = Math.ceil(products.length / sizePage);
   var curPage = 1;
-  if (req.query.page) 
-  curPage = parseInt(req.query.page); // /products?page=xxx
+  if (req.query.page)
+    curPage = parseInt(req.query.page); // /products?page=xxx
   const offset = (curPage - 1) * sizePage;
   products = products.slice(offset, offset + sizePage);
   // return
-  const result = { products: products, noPages: noPages, curPage: curPage };
+  const result = { products: products, noPages: noPages, curPage: curPage , categories: categories};
   res.json(result);
 });
 
 
 router.get('/products/search/:keyword', async function (req, res) {
   const keyword = req.params.keyword;
-  const products = await ProductDAO.selectByKeyword(keyword);
-  res.json(products);
+  var products = await ProductDAO.selectByKeyword(keyword);
+  const sizePage = 8; 
+  const noPages = Math.ceil(products.length / sizePage);
+  var curPage = 1;
+  if (req.query.page)
+    curPage = parseInt(req.query.page);
+  const offset = (curPage - 1) * sizePage;
+  products = products.slice(offset, offset + sizePage);
+  const result = { products: products, noPages: noPages, curPage: curPage ,categories: categories};
+  res.json(result);
 });
+
 router.get('/products/:id', async function (req, res) {
   const _id = req.params.id;
   const product = await ProductDAO.selectByID(_id);

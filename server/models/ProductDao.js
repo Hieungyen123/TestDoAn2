@@ -32,20 +32,19 @@ const ProductDAO = {
     return products;
   },
   async selectTopHot(top) {
-    // const items = await Models.Order.aggregate([
-    //   { $match: { status: 'APPROVED' } },
-    //   { $unwind: '$items' },
-    //   { $group: { _id: '$items.product._id', sum: { $sum: '$items.quantity' } } },
-    //   { $sort: { sum: -1 } }, // descending
-    //   { $limit: top }
-    // ]).exec();
-    const items = await Models.Product.find({sold: {$gt : 100}});
+    const items = await Models.Order.aggregate([
+      { $match: { status: 'APPROVED' } },
+      { $unwind: '$items' },
+      { $group: { _id: '$items.product._id', sum: { $sum: '$items.quantity' } } },
+      { $sort: { sum: -1 } }, // descending
+      { $limit: top }
+    ]).exec();
     var products = [];
     for (const item of items) {
       const product = await ProductDAO.selectByID(item._id);
       products.push(product);
     }
-    return items;
+    return products;
   },
 
   async selectByCatID(_cid) {
