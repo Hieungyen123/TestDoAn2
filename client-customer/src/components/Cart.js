@@ -1,8 +1,11 @@
 import React from "react";
 import { useContext } from "react";
+import { useState } from "react";
 import classNames from "classnames/bind";
 import styles from '../scss/Cart.module.scss'
+
 import MyContext from '../contexts/MyContext';
+
 import { Link } from "react-router-dom";
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import CartUtil from '../ultils/CartUtil';
@@ -12,9 +15,11 @@ import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 function Cart(prop) {
     const Context = useContext(MyContext);
     const Cart = Context.mycart
+
     // console.log('cart', Cart)
+
     const cx = classNames.bind(styles)
-    // const [quantitya, setQuantitya] = useState(null)
+    const [quantitya, setQuantitya] = useState(null)
     const handleCartChild = () => {
         prop.handleCart();
     };
@@ -31,17 +36,18 @@ function Cart(prop) {
         Context.setMycart([]);
         Context.SetnotifySuccess('xóa tất cả sản phẩm thành công')
     };
-    const handleQuantitycong = (id, quantity) => {
-        console.log(id)
+
+    const handleQuantityPlus = (id, quantity) => {
+        // console.log(id)
         Cart.map(item => {
             if (item.product._id === id) {
-                console.log(item.product._id)
+                // console.log(item.product._id)
                 item.quantity += 1
             }
         })
     }
-    const handleQuantitytru = (id, quantity) => {
-        console.log(id)
+    const handleQuantityMinus = (id, quantity) => {
+        // console.log(id)
         Cart.map(item => {
             if (item.product._id === id) {
                 console.log(item.product._id)
@@ -53,7 +59,7 @@ function Cart(prop) {
     }
 
     return (
-        <div className={cx('cart')}> {!Cart.length ? <div className={cx('null')}  ><p>Not have any thing in your cart</p></div> : (
+        <div className={cx('cart')}> {!Cart.length ? <div className={cx('null')} ><div>Not have any thing in your cart</div></div> : (
             <>
                 <div className={cx('title')}>
                     <h1>Products in your cart</h1>
@@ -74,13 +80,13 @@ function Cart(prop) {
                                     </div>
                                     <div className={cx('quantity')}>
                                         <button className={cx(item.quantity <= 1 ? 'none' : '')} onClick={(e) => {
-                                            handleQuantitytru(item.product._id, item.quantity)
-                                            // setQuantitya(item.quantity)
+                                            handleQuantityMinus(item.product._id, item.quantity)
+                                            setQuantitya(item.quantity)
                                         }}>-</button>
                                         <div className={cx('price')}>{item.quantity} </div>
                                         <button onClick={(e) => {
-                                            handleQuantitycong(item.product._id, item.quantity)
-                                            // setQuantitya(item.quantity)
+                                            handleQuantityPlus(item.product._id, item.quantity)
+                                            setQuantitya(item.quantity)
                                         }}>+</button>
                                     </div>
                                 </div>
@@ -94,15 +100,16 @@ function Cart(prop) {
                         )
                     })}
                 </div>
+                <div className={cx('footerCart')}>
+                    <div className={cx('totalss')}>
+                        <span>SUBTOTAL :</span>
+                        <span>$ {CartUtil.getTotal(Context.mycart)} </span>
+                    </div>
+                    <button><Link to='/mycart' onClick={() => handleCartChild()} >To checkout</Link></button>
+                </div>
 
             </>)}
-            <div className={cx('footerCart')}>
-                <div className={cx('total')}>
-                    <span>SUBTOTAL :</span>
-                    <span>$ {CartUtil.getTotal(Context.mycart)} </span>
-                </div>
-                <button><Link to='/mycart' onClick={() => handleCartChild()} >To checkout</Link></button>
-            </div>
+
         </div>
     );
 

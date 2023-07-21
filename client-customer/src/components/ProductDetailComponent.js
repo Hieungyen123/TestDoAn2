@@ -10,6 +10,8 @@ import BalanceIcon from "@mui/icons-material/Balance";
 import Card from './Card';
 import MyContext from '../contexts/MyContext';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+
 class ProductDetail extends Component {
     static contextType = MyContext;
     constructor(props) {
@@ -17,16 +19,19 @@ class ProductDetail extends Component {
         this.state = {
             products: [],
             product: null,
-            quantity: 1
+            quantity: 1,
+            change: 0
         };
     }
     render() {
+        let params = this.props.params;
+        console.log(params.id)
         const cx = classNames.bind(styles);
-        const prod = this.state.product;
-        const prodCate = this.state.products;
+        let prod = this.state.product;
+        let prodCate = this.state.products;
         // console.log(this.context)
         // console.log(this.state.product && `${this.state.product.category._id}` )
-        // console.log(this.state.products)
+        console.log(prod)
 
         if (prod != null && prodCate != null) {
             return (
@@ -67,14 +72,15 @@ class ProductDetail extends Component {
                         </div>
                     </div>
                     <div className={cx("product-bottom")}>
-                        <h5>Các sản phẩm khác</h5>
+                        <h5>Các sản phẩm khác </h5> <Link to={'/product/category/' + prod.category._id}>xem thêm </Link>
+
                         <div className={cx("list-product")}>
-                            {this.state.products.map((item) => {
+                            {this.state.products ? this.state.products.map((item) => {
                                 // const NameCategory = item.category.name
                                 return (
                                     <Card item={item} key={item._id} />
                                 );
-                            })}
+                            }): ''}
                         </div>
                     </div>
                 </div>
@@ -87,7 +93,14 @@ class ProductDetail extends Component {
         const params = this.props.params;
         this.apiGetProduct(params.id);
     }
+    
     // apis
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.params.id !== this.props.params.id) {
+          const id = nextProps.params.id
+          this.apiGetProduct( id );
+        }
+      }
     apiGetProduct(id) {
         axios.get('/api/customer/products/' + id).then(async (res) => {
             const result = res.data;
@@ -95,20 +108,19 @@ class ProductDetail extends Component {
             if (this.state.product) {
                 this.apiGetProductsByCatID(this.state.product.category._id)
             }
-
         });
     }
     apiGetProductsByCatID(cid) {
         axios.get('/api/customer/products/category/' + cid).then((res) => {
             const result = res.data;
-            this.setState({ products: result });
+            this.setState({ products: result.products });
         });
     }
     btnAdd2CartClick(e) {
         e.preventDefault();
         const product = this.state.product;
         const quantity = parseInt(this.state.quantity);
-        if (quantity) {
+        if (this.state.quantity < 99 && this.state.quantity > 0) {
             const mycart = this.context.mycart;
             const index = mycart.findIndex(x => x.product._id === product._id); // check if the _id exists in mycart
             if (index === -1) { // not found, push newItem
@@ -120,7 +132,7 @@ class ProductDetail extends Component {
             this.context.setMycart(mycart);
             this.context.SetnotifySuccess('sản phẩm đã thêm vào giỏ hàng của bạn')
         } else {
-            this.context.notifyWarning('mong bạn kiểm tra lại giúp mình số lượng')
+            this.context.SetnotifyWarning('mong bạn kiểm tra lại giúp mình số lượng')
         }
     }
 }

@@ -7,15 +7,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
-
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import withRouter from '../ultils/withRouter';
 import classNames from "classnames/bind";
 import styles from '../scss/Menu.module.scss'
 import { Link } from 'react-router-dom'
 import Cart from './Cart';
-
 import MyContext from '../contexts/MyContext';
-
+import img from '../img/logo.png'
 // class Menu extends Component {
 //   constructor(props) {
 //     super(props);
@@ -141,60 +140,69 @@ function Navbar() {
         <div className={cx('Navbar')}>
             <div className='container'>
                 <div className={cx('Wrapper')}>
-                    <div className={cx('left')}>
-                        <div className={cx('item')}>
-                            <div className={cx('item-categories')} onClick={() => HandleCategorires()} >
-                                <p className={cx('link')}>Categories</p>
-                                <KeyboardArrowDownIcon className={cx(downIconState ? 'DownIcon' : 'DownIcon-not')} />
-                            </div>
-                            <div className={cx('item')}><Link className={cx('link')} onClick={() => HandleHome()} to="/home">HomePage</Link></div>
-                            <div className={cx(handleCategorires ? 'dropDown-categories' : 'hide-categories')}>
-                                {categories ? categories.map((item, index) =>
-                                    [index] < 4 ? <Link to={'/product/category/' + item._id} onClick={() => HandleCategorires()} key={item._id}> {item.name} </Link> : ""
-                                ) : 'loading'}
-                                <Link to={'/products'} onClick={() => HandleCategorires()}> All category</Link>
-                            </div>
+                    <div className={cx('Wrapper-top')}>
+                        <div className={cx('left')}>
+                            <div className={cx('item')}>
+                                <PaidOutlinedIcon className={cx('icon')}/>
+                                <span>1 USD = 23,810 VNĐ</span>
+                                {/* <div className={cx('item-categories')} onClick={() => HandleCategorires()} >
+                                    <p className={cx('link')}>Categories</p>
+                                    <KeyboardArrowDownIcon className={cx(downIconState ? 'DownIcon' : 'DownIcon-not')} />
+                                </div>
+
+                                <div className={cx(handleCategorires ? 'dropDown-categories' : 'hide-categories')}>
+                                    {categories ? categories.map((item, index) =>
+                                        [index] < 4 ? <Link to={'/product/category/' + item._id} onClick={() => HandleCategorires()} key={item._id}> {item.name} </Link> : ""
+                                    ) : 'loading'}
+                                    <Link to={'/products'} onClick={() => HandleCategorires()}> All category</Link>
+                                </div> */}
+                            </div>  
                         </div>
-
-                    </div>
-                    <div className={cx('right')}>
-
-                        <div className={cx('icons')}>
-                            <div className={cx('search-bar')}>
-                                <input type="text" placeholder="Tìm kiếm..." value={txtKeyword} onChange={(e) => setTxtKeyword(e.target.value)} />
-                                <SearchIcon className={cx('icon')} onClick={(e) => btnSearchClick(e)} />
-
-                            </div>
+                        <div className={cx('right')}>
                             {Context.token === ""
                                 ? (
                                     <div className={cx('user-bar')}>
-                                        <LockPersonOutlinedIcon className={cx('user-icon')} onClick={() => HandleUser()} />
-                                        <div className={cx(handleUser ? 'user-active' : 'userNone')}>
-                                            <ul>
-                                                <li onClick={() => HandleUser()}><Link to="/login"><p>Login</p></Link></li>
-                                                <li onClick={() => HandleUser()}><Link to="/signup"><p> Sign-up</p></Link></li>
-                                                <li onClick={() => HandleUser()}><Link to="/active"><p>Active</p></Link></li>
-                                            </ul>
-                                        </div>
+                                        {/* <LockPersonOutlinedIcon className={cx('user-icon')} onClick={() => HandleUser()} /> */}
+
+                                        <div><Link to="/login"><p>Đăng Nhập</p></Link></div> /
+                                        <div><Link to="/signup"><p> Đăng Kí</p></Link></div> /  
+                                        <div><Link to="/active"><p>Active</p></Link></div> 
+
                                     </div>
                                 )
-
                                 : (
                                     <div className={cx('user-bar')}>
-                                        <Link to='/myprofile/profile'><AccountCircleOutlinedIcon className={cx('user-icon')}  /></Link>
+                                        <Link to='/myprofile/profile'><AccountCircleOutlinedIcon className={cx('user-icon')} /></Link>
                                     </div>
                                 )
-
                             }
-                            <div className={cx('cart-icon')} >
-                                {/* <Link to='/mycart' ><ShoppingCartOutlinedIcon/>  </Link>  */}
-                                <span>{Context.mycart.length}</span>
-                                <ShoppingCartOutlinedIcon onClick={() => HandleCart()} />
-                            </div>
+
                         </div>
                     </div>
+                    <div className={cx('Wrapper-bottom')}>
+                        <div className={cx('logo')}>
+                            <Link className={cx('link')} onClick={() => HandleHome()} to="/home">
+                                <img src={img} alt="" />
+                            </Link>
+                        </div>
+                        <div className={cx('search-bar')}>
+                            <input type="text" placeholder="Tìm kiếm..." value={txtKeyword} onChange={(e) => setTxtKeyword(e.target.value)} />
+                            <SearchIcon className={cx('icon')} onClick={(e) => btnSearchClick(e)} />
+                        </div>
+                        <div className={cx('cart-icon')} >
+                            {/* <Link to='/mycart' ><ShoppingCartOutlinedIcon/>  </Link>  */}
+                            <div>
+                                <p>{Context.mycart.length}</p>
+                                <ShoppingCartOutlinedIcon onClick={() => HandleCart()} />
+                            </div>
+                            <div className={cx(open ? 'show' : 'hide')}><Cart handleCart={() => HandleCart()} /></div>
+                        </div>
+                        
+                    </div>
+
                 </div>
-                <div className={cx(open ? 'show' : 'hide')}><Cart   handleCart={() => HandleCart()} /></div>
+
+                
             </div>
 
         </div>
