@@ -209,3 +209,14 @@
 .null {
   position: absolute;
 }
+
+
+@media (max-width: 420px) {
+  .cart {
+   
+    min-width: 350px;
+    min-height: 200px;
+    width: 40%;
+    height: 100vh;
+  }
+}

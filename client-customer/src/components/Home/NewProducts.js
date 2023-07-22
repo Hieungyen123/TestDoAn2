@@ -20,7 +20,7 @@ function NewProducts({ type }) {
     };
     fetchData();
   }, [])
-  console.log(newProDuct)
+  // console.log(newProDuct)
   return (
     <div className={cx("NewProducts")}>
       <div className={cx("NewProducts-title")}>

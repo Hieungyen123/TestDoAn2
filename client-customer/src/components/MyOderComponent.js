@@ -15,6 +15,7 @@ class Myorders extends Component {
     };
   }
   render() {
+    console.log(this.state.orders)
     if (this.context.token === '') return (<Navigate replace to='/login' />);
     const orders = this.state.orders.map((item) => {
       return (
@@ -25,6 +26,7 @@ class Myorders extends Component {
           <td>{item.customer.phone}</td>
           <td>{item.total}</td>
           <td>{item.status}</td>
+          <td>{item.Address}</td>
         </tr>
       );
     });
@@ -39,6 +41,7 @@ class Myorders extends Component {
             <td>{item.product.price}</td>
             <td>{item.quantity}</td>
             <td>{item.product.price * item.quantity}</td>
+            <td>{item.address}</td>
             <ToastContainer
                             position="top-center"
                             autoClose={3000}

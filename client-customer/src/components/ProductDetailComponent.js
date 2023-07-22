@@ -4,6 +4,8 @@ import withRouter from '../ultils/withRouter';
 import styles from '../scss/ProductDetail.module.scss'
 import classNames from "classnames/bind";
 
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import BalanceIcon from "@mui/icons-material/Balance";
@@ -25,7 +27,7 @@ class ProductDetail extends Component {
     }
     render() {
         let params = this.props.params;
-        console.log(params.id)
+        // console.log(params.id)
         const cx = classNames.bind(styles);
         let prod = this.state.product;
         let prodCate = this.state.products;
@@ -48,9 +50,9 @@ class ProductDetail extends Component {
                             <h1>{prod.name}</h1>
                             <span>Category: {prod.category.name}</span>
                             <span className={cx("price")}>{prod.price} $</span>
-                            <p>
+                            {/* <p>
                                 {prod.description}
-                            </p>
+                            </p> */}
 
                             <div className={cx("quantity")}>
                                 <button onClick={(e) => this.setState({ quantity: this.state.quantity === 1 ? this.state.quantity = 1 : this.state.quantity - 1 })}>-</button>
@@ -72,7 +74,8 @@ class ProductDetail extends Component {
                         </div>
                     </div>
                     <div className={cx("product-bottom")}>
-                        <h5>Các sản phẩm khác </h5> <Link to={'/product/category/' + prod.category._id}>xem thêm </Link>
+                        <h5>Các sản phẩm khác </h5> 
+                        <Link className={cx("product-More")}  to={'/product/category/' + prod.category._id}>xem thêm <ArrowForwardIosIcon/> </Link>
 
                         <div className={cx("list-product")}>
                             {this.state.products ? this.state.products.map((item) => {
