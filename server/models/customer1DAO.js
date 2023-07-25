@@ -26,7 +26,7 @@ const CustomerDAO = {
     return customer;
   },
   async update(customer) {
-    const newvalues = { username: customer.username, password: customer.password, name: customer.name, phone: customer.phone, email: customer.email };
+    const newvalues = { username: customer.username, password: customer.password, name: customer.name, phone: customer.phone, email: customer.email , image: customer.image};
     const result = await Models.Customer.findByIdAndUpdate(customer._id, newvalues, { new: true });
     return result;
   },

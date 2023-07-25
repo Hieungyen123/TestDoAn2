@@ -65,6 +65,8 @@ router.get('/products/category', async function (req, res) {
 router.get('/products/search/:keyword', async function (req, res) {
   const keyword = req.params.keyword;
   var products = await ProductDAO.selectByKeyword(keyword);
+  const categories = await CategoryDAO.selectAll();
+
   const sizePage = 8; 
   const noPages = Math.ceil(products.length / sizePage);
   var curPage = 1;
@@ -72,7 +74,7 @@ router.get('/products/search/:keyword', async function (req, res) {
     curPage = parseInt(req.query.page);
   const offset = (curPage - 1) * sizePage;
   products = products.slice(offset, offset + sizePage);
-  const result = { products: products, noPages: noPages, curPage: curPage ,categories: categories};
+  const result = { products: products, noPages: noPages, curPage: curPage , categories: categories};  
   res.json(result);
 });
 
@@ -90,13 +92,15 @@ router.post('/signup', async function (req, res) {
   const phone = req.body.phone;
   const email = req.body.email;
   const image = req.body.image;
+
+  
   const dbCust = await CustomerDAO.selectByUsernameOrEmail(username, email);
   if (dbCust) {
     res.json({ success: false, message: 'Exists username or email' });
   } else {
     const now = new Date().getTime(); // milliseconds
     const token = CryptoUtil.md5(now.toString());
-    const newCust = { username: username, password: password, name: name, phone: phone, email: email, image: image, active: 0, token: token };
+    const newCust = { username: username, password: password, name: name, phone: phone, email: email, image: image, active: 0, token: token};
     const result = await CustomerDAO.insert(newCust);
     if (result) {
       const send = await EmailUtil.send(email, result._id, token);
@@ -116,13 +120,20 @@ router.post('/active', async function (req, res) {
   const _id = req.body.id;
   const token = req.body.token;
   const result = await CustomerDAO.active(_id, token, 1);
-  res.json(result);
+  // console.log(result)
+  if(result) {
+    res.json(result);
+  } else {
+    res.json({ success: false, message: 'không đúng ID hoặc token' });
+  }
+  
 });
 
 //login
 router.post('/login', async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
+  console.log(username,password)
   if (username && password) {
     const customer = await CustomerDAO.selectByUsernameAndPassword(username, password);
     if (customer) {
@@ -145,14 +156,15 @@ router.get('/token', JwtUtil.checkToken, function (req, res) {
 });
 
 
-router.put('/customers/:id', JwtUtil.checkToken, async function (req, res) {
+router.put('/customers/myprofile/profile/:id', JwtUtil.checkToken, async function (req, res) {
   const _id = req.params.id;
   const username = req.body.username;
   const password = req.body.password;
   const name = req.body.name;
   const phone = req.body.phone;
   const email = req.body.email;
-  const customer = { _id: _id, username: username, password: password, name: name, phone: phone, email: email };
+  const image = req.body.image;
+  const customer = { _id: _id, username: username, password: password, name: name, phone: phone, email: email , image: image};
   const result = await CustomerDAO.update(customer);
   res.json(result);
 });
@@ -162,14 +174,24 @@ router.post('/checkout', JwtUtil.checkToken, async function (req, res) {
   const total = req.body.total;
   const items = req.body.items;
   const customer = req.body.customer;
-  const order = { cdate: now, total: total, status: 'PENDING', customer: customer, items: items };
+  const address = req.body.address
+  const order = { cdate: now, total: total, status: 'PENDING', customer: customer, items: items, Address: address };
   const result = await OrderDAO.insert(order);
   res.json(result);
 });
 router.get('/orders/customer/:cid', JwtUtil.checkToken, async function (req, res) {
   const _cid = req.params.cid;
-  const orders = await OrderDAO.selectByCustID(_cid);
-  res.json(orders);
+  var orders = await OrderDAO.selectByCustID(_cid);
+
+  const sizePage = 4; 
+  const noPages = Math.ceil(orders.length / sizePage);
+  var curPage = 1;
+  if (req.query.page)
+    curPage = parseInt(req.query.page);
+  const offset = (curPage - 1) * sizePage;
+  orders = orders.slice(offset, offset + sizePage);
+  const result = { orders: orders, noPages: noPages, curPage: curPage };  
+  res.json(result);
 });
 
 module.exports = router;

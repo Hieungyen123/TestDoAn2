@@ -21,6 +21,7 @@ const CustomerSchema = mongoose.Schema({
   active: Number,
   image: String,
   token: String,
+  
 }, { versionKey: false});
 const ProductSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -40,7 +41,8 @@ const OrderSchema = mongoose.Schema({
   total: Number,
   status: String,
   customer: CustomerSchema,
-  items: [ItemSchema]
+  items: [ItemSchema],
+  Address: String,
 }, { versionKey: false });
 // models
 const Admin = mongoose.model('Admin', AdminSchema);

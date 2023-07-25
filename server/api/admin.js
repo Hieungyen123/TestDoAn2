@@ -15,10 +15,10 @@ router.post('/login', async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
   if (username && password) {
-    const admin = await AdminDAO.selectByUsernameAndPassword(username,password);
+    const admin = await AdminDAO.selectByUsernameAndPassword(username, password);
     if (admin) {
       const token = JwtUtil.genToken();
-      res.json({ success: true, message: 'Authentication successful', token: token  });
+      res.json({ success: true, message: 'Authentication successful', token: token });
     } else {
       res.json({ success: false, message: 'Incorrect username or password' });
     }
@@ -28,7 +28,7 @@ router.post('/login', async function (req, res) {
 });
 router.get('/token', JwtUtil.checkToken, function (req, res) {
   const token = req.headers['x-access-token'] || req.headers['authorization'];
-  res.json({ success: true, message: 'Token is valid', token: token  });
+  res.json({ success: true, message: 'Token is valid', token: token });
 });
 
 //categories
@@ -37,7 +37,7 @@ router.get('/categories', JwtUtil.checkToken, async function (req, res) {
   console.log(categories)
   res.json(categories);
 });
-router.post('/categories', JwtUtil.checkToken,  async function (req, res) {
+router.post('/categories', JwtUtil.checkToken, async function (req, res) {
   const name = req.body.name;
   const category = { name: name };
   const result = await CategoryDAO.insert(category);
@@ -115,7 +115,7 @@ router.get('/orders', JwtUtil.checkToken, async function (req, res) {
   // return
   const result = { orders: orders, noPages: noPages, curPage: curPage };
   res.json(result);
-  
+
 });
 
 router.put('/orders/status/:id', JwtUtil.checkToken, async function (req, res) {
@@ -130,7 +130,7 @@ router.get('/customers', JwtUtil.checkToken, async function (req, res) {
   const customers = await CustomerDAO.selectAll();
   res.json(customers);
 
-  
+
 });
 
 router.get('/orders/customer/:cid', JwtUtil.checkToken, async function (req, res) {
@@ -149,6 +149,7 @@ router.put('/customers/deactive/:id', JwtUtil.checkToken, async function (req, r
 router.get('/customers/sendmail/:id', JwtUtil.checkToken, async function (req, res) {
   const _id = req.params.id;
   const cust = await CustomerDAO.selectByID(_id);
+  
   if (cust) {
     const send = await EmailUtil.send(cust.email, cust._id, cust.token);
     if (send) {
