@@ -35,7 +35,7 @@ class Login extends Component {
                 <input type="password" name='password' value={this.state.txtPassword} onChange={(e) => { this.setState({ txtPassword: e.target.value }) }} />
               </div>
               <div className={cx("LoginAndSignUp")}>
-                <input type="submit" value="LOGIN" className={cx("login-btn")} onClick={(e) => this.btnLoginClick(e)} />
+                <input type="submit" value="login" className={cx("login-btn")} onClick={(e) => this.btnLoginClick(e)} />
                 <Link className={cx('toLogin')} to="/signup">SignUp</Link>
               </div>
             </div>
@@ -50,6 +50,7 @@ class Login extends Component {
     e.preventDefault();
     const username = this.state.txtUsername;
     const password = this.state.txtPassword;
+    console.log(username,password)
     if (username && password) {
       const account = { username: username, password: password };
       this.apiLogin(account);
@@ -61,6 +62,7 @@ class Login extends Component {
   apiLogin(account) {
     axios.post('/api/customer/login', account).then((res) => {
       const result = res.data;
+      console.log(result)
       if (result.success === true) {
         this.context.setToken(result.token);
         this.context.setCustomer(result.customer);

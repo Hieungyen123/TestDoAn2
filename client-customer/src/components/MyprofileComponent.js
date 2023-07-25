@@ -59,7 +59,8 @@ class Myprofile extends Component {
                 </div>
                 
                   <div className={cx("User-setting-item")}>
-                    <NavLink to='/myprofile/profile'>
+                    <NavLink to={'/myprofile/profile'}>
+                   
                       <PersonIcon />
                       <p>Hồ sơ của tôi</p>
                     </NavLink>
@@ -72,7 +73,7 @@ class Myprofile extends Component {
                   </NavLink>
                 </div>
                 <div className={cx("User-setting-item")}>
-                  <NavLink to='/myprofile/myorders'>
+                  <NavLink to={'/myprofile/myorders/' + this.context.customer._id} >
                     <AssignmentIcon />
                     <p>Đơn mua</p>
                   </NavLink>

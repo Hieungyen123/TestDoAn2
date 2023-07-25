@@ -2,7 +2,11 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import classNames from "classnames/bind";
 import styles from '../scss/SignUp.module.scss'
+import MyContext from '../contexts/MyContext';
+
 class Active extends Component {
+  static contextType = MyContext; // using this.context to access global state
+
   constructor(props) {
     super(props);
     this.state = {
@@ -42,9 +46,14 @@ class Active extends Component {
     const id = this.state.txtID;
     const token = this.state.txtToken;
     if (id && token) {
-      this.apiActive(id, token);
+      if (id.length > 23) {
+        this.apiActive(id, token);
+      } else {
+        this.context.SetnotifyWarning('ID sai kìa má vô mail check lại đi')
+      }
+        
     } else {
-      alert('Please input id and token');
+      this.context.SetnotifyWarning('Mời bạn nhập các trường còn thiếu')
     }
   }
   // apis
@@ -52,11 +61,12 @@ class Active extends Component {
     const body = { id: id, token: token };
     axios.post('/api/customer/active', body).then((res) => {
       const result = res.data;
-      if (result) {
-        alert('Actice Success');
+      console.log(result)
+      if (result.active = 1) {
+        this.context.SetnotifySuccess('Kích hoạt tài khoản thành công, giờ bạn có thể đăng nhập')
         this.setState({ txtID: '', txtToken: ''})
       } else {
-        alert('Something wrong');
+        this.context.SetnotifyWarning(result.message)
       }
     });
   }

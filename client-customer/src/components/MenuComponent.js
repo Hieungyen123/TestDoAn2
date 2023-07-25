@@ -1,12 +1,12 @@
-import axios from 'axios';
-import React, { useState, useEffect, useContext } from "react";
+// import axios from 'axios';
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom"
 
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
+// import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import withRouter from '../ultils/withRouter';
 import classNames from "classnames/bind";
@@ -15,8 +15,8 @@ import { Link } from 'react-router-dom'
 import Cart from './Cart';
 import MyContext from '../contexts/MyContext';
 import img from '../img/logo.png'
-// class Menu extends Component {
-//   constructor(props) {
+
+
 //     super(props);
 //     this.state = {
 //       categories: [],
@@ -92,48 +92,48 @@ function Navbar() {
     const cx = classNames.bind(styles)
     const [open, setOpen] = useState(false)
     // const products = useSelector(state => state.cart.products)
-    const [categories, setCategories] = useState([])
-    const [handleCategorires, setHandleCategories] = useState(false)
-    const [handleUser, setHandleUser] = useState(false)
-    const [downIconState, setDownIconState] = useState(false)
+    // const [categories, setCategories] = useState([])
+    // const [handleCategorires, setHandleCategories] = useState(false)
+    // const [handleUser, setHandleUser] = useState(false)
+    // const [downIconState, setDownIconState] = useState(false)
     const [txtKeyword, setTxtKeyword] = useState('')
 
-    const HandleCategorires = () => {
-        setHandleCategories(!handleCategorires)
-        setOpen(false)
-        setHandleUser(false)
-        setDownIconState(!downIconState)
-    }
-    const HandleUser = () => {
-        setHandleUser(!handleUser)
-        setOpen(false)
-        setHandleCategories(false)
-    }
+    // const HandleCategorires = () => {
+    //     setHandleCategories(!handleCategorires)
+    //     setOpen(false)
+    //     setHandleUser(false)
+    //     setDownIconState(!downIconState)
+    // }
+    // const HandleUser = () => {
+    //     setHandleUser(!handleUser)
+    //     setOpen(false)
+    //     setHandleCategories(false)
+    // }
     const HandleCart = () => {
         setOpen(!open)
-        setHandleUser(false)
-        setHandleCategories(false)
+        // setHandleUser(false)
+        // setHandleCategories(false)
     }
-    useEffect(() => {
-        const fetchData = async () => {
-            const ProductNew = await axios.get('/api/customer/categories');
-            setCategories(ProductNew.data);
-        };
-        fetchData();
-    }, [])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const ProductNew = await axios.get('/api/customer/categories');
+    //         setCategories(ProductNew.data);
+    //     };
+    //     fetchData();
+    // }, [])
 
     const HandleHome = () => {
-        setHandleUser(false)
-        setHandleCategories(false)
+        // setHandleUser(false)
+        // setHandleCategories(false)
         setOpen(false)
     }
 
 
-    // console.log(categories)
+    // console.log(Context.customer._id)
     const btnSearchClick = (e) => {
         e.preventDefault();
         if (txtKeyword !== '') {
-            navigate('/product/search/' + txtKeyword);
+            navigate('/products/search/' + txtKeyword);
         }
     }
     return (
@@ -145,17 +145,7 @@ function Navbar() {
                             <div className={cx('item')}>
                                 <PaidOutlinedIcon className={cx('icon')}/>
                                 <span>1 USD = 23,810 VNĐ</span>
-                                {/* <div className={cx('item-categories')} onClick={() => HandleCategorires()} >
-                                    <p className={cx('link')}>Categories</p>
-                                    <KeyboardArrowDownIcon className={cx(downIconState ? 'DownIcon' : 'DownIcon-not')} />
-                                </div>
-
-                                <div className={cx(handleCategorires ? 'dropDown-categories' : 'hide-categories')}>
-                                    {categories ? categories.map((item, index) =>
-                                        [index] < 4 ? <Link to={'/product/category/' + item._id} onClick={() => HandleCategorires()} key={item._id}> {item.name} </Link> : ""
-                                    ) : 'loading'}
-                                    <Link to={'/products'} onClick={() => HandleCategorires()}> All category</Link>
-                                </div> */}
+                               
                             </div>  
                         </div>
                         <div className={cx('right')}>
@@ -172,7 +162,7 @@ function Navbar() {
                                 )
                                 : (
                                     <div className={cx('user-bar')}>
-                                        <Link to='/myprofile/profile'><AccountCircleOutlinedIcon className={cx('user-icon')} /></Link>
+                                        <Link to={'/myprofile/profile/' + Context.customer._id}><AccountCircleOutlinedIcon className={cx('user-icon')} /></Link>
                                     </div>
                                 )
                             }

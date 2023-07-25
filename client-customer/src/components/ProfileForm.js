@@ -15,14 +15,16 @@ class ProfileForm extends Component {
             txtName: '',
             txtPhone: '',
             txtEmail: '',
-            imgProduct: '',
+            imgUser: '',
+            newIMG: '',
             Disabled: 'disabled'
         };
     }
     render() {
         const cx = classNames.bind(styles)
-        // console.log(this.context)
-
+        // console.log(this.state.imgUser)
+        console.log(this.context.customer)
+        
         if (this.context.token === '') return (<Navigate replace to='/login' />);
         return (
             <div className={cx('UserAccount')}>
@@ -64,8 +66,8 @@ class ProfileForm extends Component {
                     </form>
                     <div className={cx('ImgUser')}>
                         <img src={img} alt="" className={cx('Img')}/>
-                        <label for="imageUpload">Chọn ảnh</label>                        
-                        <input type="file" name="fileImage" id="imageUpload" accept="image/jpeg, image/png, image/gif" onChange={(e) => this.previewImage(e)} />
+                        <label for="fileImageuser">Chọn ảnh</label>                        
+                        <input type="file" name="fileImageuser" id="fileImageuser" accept="image/jpeg, image/png, image/gif" onChange={(e) => this.previewImage(e)} />
                         <div className={cx('ImgUser-bottom')}>
                             <p>Dụng lượng file tối đa 1 MB</p>
                             <p>Định dạng:.JPEG, .PNG, .gif</p>
@@ -84,7 +86,7 @@ class ProfileForm extends Component {
                 txtName: this.context.customer.name,
                 txtPhone: this.context.customer.phone,
                 txtEmail: this.context.customer.email,
-                imgProduct: this.context.customer.image
+                imgUser: this.context.customer.image
             });
         }
     }
@@ -93,7 +95,7 @@ class ProfileForm extends Component {
         if (file) {
             const reader = new FileReader();
             reader.onload = (evt) => {
-                this.setState({ imgProduct: evt.target.result });
+                this.setState({ newIMG: evt.target.result });
             }
             reader.readAsDataURL(file);
         }
@@ -106,8 +108,9 @@ class ProfileForm extends Component {
         const name = this.state.txtName;
         const phone = this.state.txtPhone;
         const email = this.state.txtEmail;
-        if (username && password && name && phone && email) {
-            const customer = { username: username, password: password, name: name, phone: phone, email: email };
+        const image =  this.state.newIMG.replace(/^data:image\/[a-z]+;base64,/, '');
+        if (username && password && name && phone && email && image) {
+            const customer = { username: username, password: password, name: name, phone: phone, email: email , image: image };
             this.apiPutCustomer(this.context.customer._id, customer);
         } else {
             alert('Please input username and password and name and phone and email');
@@ -116,7 +119,7 @@ class ProfileForm extends Component {
     // apis
     apiPutCustomer(id, customer) {
         const config = { headers: { 'x-access-token': this.context.token } };
-        axios.put('/api/customer/customers/' + id, customer, config).then((res) => {
+        axios.put('/api/customer/customers/myprofile/profile/' + id, customer, config).then((res) => {
             const result = res.data;
             if (result) {
                 alert('OK BABY!');

@@ -70,15 +70,15 @@ function Main() {
             <Route path='/home' element={<Home />} />
             <Route path='/product/category/:cid' element={<Product />} />
             <Route path='/products/' element={<AllProductComponent />} />
-            <Route path='/product/search/:keyword' element={<Product />} />
+            <Route path='/products/search/:keyword' element={<Product />} />
             <Route path='/product/:id' element={<ProductDetail />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/active' element={<Active />} />
             <Route path='/login' element={<Login />} />
             <Route path="myprofile" element={<Myprofile />} >
               <Route path='' element={<ProfileForm />} />
-              <Route path="myorders" element={<Myorders />} />
-              <Route path="profile" element={<ProfileForm />} />
+              <Route path='myorders/:cid' element={<Myorders />} />
+              <Route path="profile/:id" element={<ProfileForm />} />
               <Route path="changepass" element={<ChangePass />} />
             </Route>
             <Route path='/mycart' element={<Mycart />} />

@@ -3,10 +3,14 @@ import React, { Component } from 'react';
 import classNames from "classnames/bind";
 import styles from '../scss/SignUp.module.scss'
 import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import MyContext from '../contexts/MyContext';
+import img from '../img/avatar.jpg'
+// import { Navigate } from 'react-router-dom';
+
 class Signup extends Component {
-    
+    static contextType = MyContext; // using this.context to access global state
+
     constructor(props) {
         super(props);
         this.state = {
@@ -63,46 +67,14 @@ class Signup extends Component {
                             <input type="submit" value="SIGN-UP" className={cx("login-btn")} onClick={(e) => this.btnSignupClick(e)} />
                             <Link className={cx('toLogin')} to="/login">Login</Link>
                         </div>
-                        <ToastContainer
-                            position="top-center"
-                            autoClose={3000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme="light"
-                        />
+                      
                     </div>
                 </div>
             </div>
         );
     }
 
-    notifySuccess = (message) => toast.success(message, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
-
-
-    notifyWarning = (message) => toast.warn(message, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
+   
     // event-handlers
     
     btnSignupClick(e) {
@@ -112,13 +84,14 @@ class Signup extends Component {
         const name = this.state.txtName;
         const phone = this.state.txtPhone;
         const email = this.state.txtEmail;
-        const image = this.state.imgProduct.replace(/^data:image\/[a-z]+;base64,/, ''); // remove "data:image/...;base64,"
+        const image = this.state.imgProduct ? this.state.imgProduct.replace(/^data:image\/[a-z]+;base64,/, '') : img; // remove "data:image/...;base64,"
         if (username && password && name && phone && email && image) {
             const account = { username: username, password: password, name: name, phone: phone, email: email, image: image };
             this.apiSignup(account);
             this.setState({ txtUsername: '', txtPassword: '', txtName: '', txtPhone: '', txtEmail: '' })
+            this.context.SetnotifySuccess('Đăng kí thành công, ID và Token đã được gửi vào email của bạn')
         } else {
-            this.notifyWarning('Mời bạn nhập các trường còn thiếu')
+            this.context.SetnotifyWarning('Mời bạn nhập các trường còn thiếu')
         }
     }
     previewImage(e) {
@@ -134,8 +107,8 @@ class Signup extends Component {
     // apis
     apiSignup(account) {
         axios.post('/api/customer/signup', account).then((res) => {
-            this.notifySuccess('Bạn đã đăng kí thành công')
             const result = res.data;
+            console.log(result)
             alert(result.message)
         });
     }
