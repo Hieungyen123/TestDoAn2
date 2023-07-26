@@ -53,13 +53,13 @@ class Myprofile extends Component {
               </div>
 
               <div className={cx("User-setting")}>
-                <div className={cx("User-setting-item")}>
+                {/* <div className={cx("User-setting-item")}>
                   <ReceiptIcon />
                   <p>Ưu đãi cho bạn</p>
-                </div>
+                </div> */}
                 
                   <div className={cx("User-setting-item")}>
-                    <NavLink to={'/myprofile/profile'}>
+                    <NavLink to={'/myprofile/profile/' + this.context.customer._id}>
                    
                       <PersonIcon />
                       <p>Hồ sơ của tôi</p>

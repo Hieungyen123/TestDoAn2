@@ -22,8 +22,8 @@ class Myorders extends Component {
   render() {
     const cx = classNames.bind(styles)
 
-    console.log(this.state.orders)
-    console.log(this.state.order ? this.state.order.items : '')
+    // console.log(this.state.orders)
+    // console.log(this.state.order ? this.state.order.items : '')
 
     if (this.context.token === '') return (<Navigate replace to='/login' />);
     const orders = this.state.orders.map((item) => {

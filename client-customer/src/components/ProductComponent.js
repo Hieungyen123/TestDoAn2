@@ -121,7 +121,7 @@ class Product extends Component {
   }
   componentDidUpdate(prevProps) { // changed: /product/...
     const params = this.props.params;
-    console.log(params)
+    // console.log(params)
     if (params.cid && params.cid !== prevProps.params.cid) {
       this.apiGetProductsByCatID(params.cid, this.state.curPage);
     } else if (params.keyword && params.keyword !== prevProps.params.keyword) {

@@ -61,7 +61,7 @@ class Active extends Component {
     const body = { id: id, token: token };
     axios.post('/api/customer/active', body).then((res) => {
       const result = res.data;
-      console.log(result)
+      // console.log(result)
       if (result.active = 1) {
         this.context.SetnotifySuccess('Kích hoạt tài khoản thành công, giờ bạn có thể đăng nhập')
         this.setState({ txtID: '', txtToken: ''})

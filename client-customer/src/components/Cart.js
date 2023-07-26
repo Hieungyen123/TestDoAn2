@@ -50,7 +50,7 @@ function Cart(prop) {
         // console.log(id)
         Cart.map(item => {
             if (item.product._id === id) {
-                console.log(item.product._id)
+                // console.log(item.product._id)
                 if (quantity > 1) {
                     item.quantity -= 1
                 }

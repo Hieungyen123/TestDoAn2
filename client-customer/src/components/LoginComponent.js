@@ -50,7 +50,7 @@ class Login extends Component {
     e.preventDefault();
     const username = this.state.txtUsername;
     const password = this.state.txtPassword;
-    console.log(username,password)
+    // console.log(username,password)
     if (username && password) {
       const account = { username: username, password: password };
       this.apiLogin(account);
@@ -62,7 +62,7 @@ class Login extends Component {
   apiLogin(account) {
     axios.post('/api/customer/login', account).then((res) => {
       const result = res.data;
-      console.log(result)
+      // console.log(result)
       if (result.success === true) {
         this.context.setToken(result.token);
         this.context.setCustomer(result.customer);

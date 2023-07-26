@@ -89,3 +89,47 @@
     }
 }
 
+@media (max-width: 990px) {
+    .Profile {
+
+        .ProfileCenter {
+            width: 100%;
+
+            display: block;
+            gap: 20px;
+            
+            .ProfileUser {
+                max-width: none;
+                margin-bottom: 50px;
+                padding: 10px;
+                background-color: white;
+                }
+                .User-setting {
+                    flex-direction: row !important;
+                    justify-content: space-around;
+                    .User-setting-item {
+                        svg {
+                            font-size: 30px;
+                        }
+                        p {
+                           display: none;
+                        }
+                        
+                        
+                    }
+                    .User-setting-item-special {
+                       
+                        .User-profile-small {
+                        
+                        }
+                    }
+                }
+                
+                
+            }
+            .ProfileForm {
+             
+            }
+        }
+    
+}

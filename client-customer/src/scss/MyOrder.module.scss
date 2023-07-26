@@ -37,3 +37,20 @@
     }
   }
 }
+
+// overflow-y: scroll;
+// overflow-wrap: 50px;
+// &::-webkit-scrollbar {
+//   display: none;
+// }
+
+@media (max-width: 650px) {
+  .Order {
+    overflow-y: scroll;
+    // overflow-wrap: 50px;
+    &::-webkit-scrollbar {
+      height: 7px;
+    }
+    
+  }
+}

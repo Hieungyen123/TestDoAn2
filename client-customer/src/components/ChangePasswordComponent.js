@@ -45,18 +45,25 @@ function ChangePass() {
       }
     return (
         <div className={cx('change-pass')}>
-            <div className={cx('change-pass-group')}>
-                <label htmlFor="oldpass">nhập mật khẩu cũ</label>
-                <input type="password" id="oldpass" value={passNow} onChange={(e) => SetPassNow(e.target.value)} />
+            <div className={cx('change-pass-title')}>
+                <h3>Đổi mật khẩu</h3>
             </div>
-
-            <div className={cx('change-pass-group')}>
-                < label htmlFor="newpass">nhập mật khẩu mới</label>
-                <input type="password" id="newpass " value={newPass} onChange={(e) => SetNewPass(e.target.value)} />
-            </div>
-            <div className={cx('change-pass-group')}>
-                <button onClick={(e) => btnUpdateClick(e)}>update</button>
-            </div>
+           <div className={cx('Groups')}>
+                <div >
+                    <div className={cx('change-pass-group')}>
+                        <label htmlFor="oldpass">Mật khẩu cũ: </label>
+                        <input type="password" id="oldpass" value={passNow} onChange={(e) => SetPassNow(e.target.value)} />
+                    </div>
+        
+                    <div className={cx('change-pass-group')}>
+                        < label htmlFor="newpass">Mật khẩu mới: </label>
+                        <input type="password" id="newpass " value={newPass} onChange={(e) => SetNewPass(e.target.value)} />
+                    </div>
+                </div>
+                <div className={cx('change-pass-button')}>
+                    <button onClick={(e) => btnUpdateClick(e)}>update</button>
+                </div>
+           </div>
         </div>
     );
 }

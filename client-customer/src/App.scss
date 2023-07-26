@@ -91,7 +91,12 @@ a.active {
     justify-content: center;
   }
 }
-
+@media (min-width: 490px) {
+  .container {
+    max-width: 470px;
+    justify-content: center;
+  }
+}
 @media (min-width: 500px) {
   .container {
     max-width: 480px;

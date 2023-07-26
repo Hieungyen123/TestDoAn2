@@ -23,7 +23,7 @@ class ProfileForm extends Component {
     render() {
         const cx = classNames.bind(styles)
         // console.log(this.state.imgUser)
-        console.log(this.context.customer)
+        // console.log(this.context.customer)
         
         if (this.context.token === '') return (<Navigate replace to='/login' />);
         return (

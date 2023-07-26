@@ -172,6 +172,10 @@
             font-weight: 500;
             align-items: center;
             text-decoration: none;
+            opacity: 0.8;
+            &:hover {
+              opacity: 1;
+            }
             p {
               margin: 0;
             }
@@ -193,6 +197,9 @@
             width: 100px;
             height: 70px;
           }
+        }
+        .logo-icon {
+          display: none;
         }
       }
 
@@ -390,6 +397,35 @@
         .left{
           .item {
             display: none;
+          }
+        }
+      }
+    }
+    
+  }
+}
+@media (max-width: 400px) {
+  .Navbar {    
+    .Wrapper {
+      .Wrapper-bottom {
+    
+        .logo {
+          .link {
+            
+            img {
+              display: none;
+              width: 100px;
+              height: 70px;
+            }
+          }
+          .logo-icon {
+            font-size: 35px;
+            display: block;
+            color: #343030;
+            opacity: 0.8;
+            &:hover {
+              opacity: 1;
+            }
           }
         }
       }

@@ -19,8 +19,8 @@ class Mycart extends Component {
   render() {
     const cx = classNames.bind(styles)
 
-    console.log(this.props)
-    console.log(this.context.customer)
+    // console.log(this.props)
+    // console.log(this.context.customer)
     const user = this.context.customer
     // const mycart = this.context.mycart.map((item, index) => {
     //   return (

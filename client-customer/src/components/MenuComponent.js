@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 // import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import withRouter from '../ultils/withRouter';
 import classNames from "classnames/bind";
@@ -91,40 +92,16 @@ function Navbar() {
     const navigate = useNavigate();
     const cx = classNames.bind(styles)
     const [open, setOpen] = useState(false)
-    // const products = useSelector(state => state.cart.products)
-    // const [categories, setCategories] = useState([])
-    // const [handleCategorires, setHandleCategories] = useState(false)
-    // const [handleUser, setHandleUser] = useState(false)
-    // const [downIconState, setDownIconState] = useState(false)
     const [txtKeyword, setTxtKeyword] = useState('')
 
-    // const HandleCategorires = () => {
-    //     setHandleCategories(!handleCategorires)
-    //     setOpen(false)
-    //     setHandleUser(false)
-    //     setDownIconState(!downIconState)
-    // }
-    // const HandleUser = () => {
-    //     setHandleUser(!handleUser)
-    //     setOpen(false)
-    //     setHandleCategories(false)
-    // }
     const HandleCart = () => {
         setOpen(!open)
-        // setHandleUser(false)
-        // setHandleCategories(false)
+  
     }
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const ProductNew = await axios.get('/api/customer/categories');
-    //         setCategories(ProductNew.data);
-    //     };
-    //     fetchData();
-    // }, [])
+
 
     const HandleHome = () => {
-        // setHandleUser(false)
-        // setHandleCategories(false)
+
         setOpen(false)
     }
 
@@ -173,6 +150,7 @@ function Navbar() {
                         <div className={cx('logo')}>
                             <Link className={cx('link')} onClick={() => HandleHome()} to="/home">
                                 <img src={img} alt="" />
+                                <HomeRoundedIcon className={cx('logo-icon')}/>
                             </Link>
                         </div>
                         <div className={cx('search-bar')}>
