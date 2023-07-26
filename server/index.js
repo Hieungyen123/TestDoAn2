@@ -31,7 +31,7 @@ app.use('/api/customer', require('./api/customer.js'));
 
 
 var path = require('path');
-console.log('__dirname',__dirname)
+// console.log('__dirname',__dirname)
 // '/admin' serve the files at client-admin/build/* as static files
 app.use('/admin', express.static(path.resolve(__dirname, '../client-admin/build')));
 app.get('admin/*', (req, res) => {

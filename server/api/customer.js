@@ -133,7 +133,7 @@ router.post('/active', async function (req, res) {
 router.post('/login', async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
-  console.log(username,password)
+  // console.log(username,password)
   if (username && password) {
     const customer = await CustomerDAO.selectByUsernameAndPassword(username, password);
     if (customer) {
