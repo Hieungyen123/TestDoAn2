@@ -12,7 +12,7 @@ function SlideCate() {
     };
     fetchData();
   }, []);
-
+  console.log(category)
   return (
     <div className="slide-2">
       <div className="container">
