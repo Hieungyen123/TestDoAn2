@@ -59,7 +59,7 @@ class Category extends Component {
   apiGetCategories() {
     const config = { headers: { 'x-access-token': this.context.token } };
     axios.get('/api/admin/categories', config).then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.data.success != 'False') {
         const result = res.data;
         this.setState({ categories: result ? result : [] });

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import MyContext from '../contexts/MyContext';
 import classNames from "classnames/bind";
 import styles from "./scss/Order.module.scss";
-import ReactPaginate from 'react-paginate';
+// import ReactPaginate from 'react-paginate';
 
 class Order extends Component {
   static contextType = MyContext; // using this.context to access global state
@@ -12,42 +12,41 @@ class Order extends Component {
     this.state = {
       loading: false,
       orders: [],
+      ordersAll: [],
       order: null,
       selectedOption: '',
       customer: [],
       checked: 'all',
-      noPages: 0,
-      curPage: 1,
+
     };
   }
   render() {
-    const handlePageClick = async (data) => {
-      const curPage = await data.selected + 1;
-      this.apiGetOrders(curPage);
-    }
+    
     const cx = classNames.bind(styles);
+    const customerArray = [];
+    // console.log(this.state.ordersAll)
+    
 
-    const orders = this.state.orders.map((item) => {
+    const orders = this.state.ordersAll.map((item) => {
       if (this.state.selectedOption !== '') {
-        if ( this.state.selectedOption === item.customer._id ) {
+        if (item.customer._id === this.state.checked) {
           return (
-            <tr key={item._id} className={''} onClick={() => this.trItemClick(item)}>
-              <td>{item._id}</td>
-              <td>{new Date(item.cdate).toLocaleString()}</td>
-              <td>{item.customer.name}</td>
-              <td>{item.customer.phone}</td>
-              <td>{item.total}</td>
-              <td>{item.status}</td>
-              <td>
-                {item.status === 'PENDING' ?
-                  <div><span className="link" onClick={() => this.lnkApproveClick(item._id)}>APPROVE</span> || <span className="link" onClick={() => this.lnkCancelClick(item._id)}>CANCEL</span></div>
-                  : <div />}
-              </td>
-            </tr>
+              <tr key={item._id}  className={cx('list-order')} onClick={() => this.trItemClick(item)}>
+                <td>{item._id}</td>
+                <td>{new Date(item.cdate).toLocaleString()}</td>
+                <td>{item.customer.name}</td>
+                <td>{item.customer.phone}</td>
+                <td>{item.total}</td>
+                <td>{item.status}</td>
+                <td>
+                  {item.status === 'PENDING' ?
+                    <div><span className="link" onClick={() => this.lnkApproveClick(item._id)}>Xác nhận</span> || <span className="link" onClick={() => this.lnkCancelClick(item._id)}>Hủy</span></div>
+                    : <div />}
+                </td>
+              </tr>
+
           )
-        } else {
-           this.setState({orders: []})
-        }
+        } 
       } else {
         return (
           <tr key={item._id} className={''} onClick={() => this.trItemClick(item)}>
@@ -65,7 +64,7 @@ class Order extends Component {
           </tr>
         )
       }
-      
+
 
     });
 
@@ -84,103 +83,95 @@ class Order extends Component {
         );
       });
     }
+    this.state.ordersAll.map(item => {
+      if(customerArray.includes(item.customer._id)) {
 
+      } else {
+        customerArray.push(item.customer._id)
+        // console.log(customerArray)
+      }
+      
+    })
     const customer = this.state.customer.map((item) => {
-      return (
-        <label key={item._id} htmlFor={item._id}>
-          <input
-            type="radio"
-            name="vote"
-            value={item._id}
-            id={item._id}
-            checked={this.state.checked === item._id}
-            onChange={(e) => this.handleOnChange(e, item._id)} />
-          {item.name}
-        </label>
-      )
+      if (customerArray.includes(item._id)) {
+        return (
+          <div key={item._id} className={cx('Order-customer-all')} >
+            <label  htmlFor={item._id}>
+              <input
+                type="radio"
+                name="vote"
+                value={item._id}
+                id={item._id}
+                checked={this.state.checked === item._id}
+                onChange={(e) => this.handleOnChange(e, item._id)}
+              />
+              {item.name}
+            </label>
+          </div>
+        )
+      }
     })
 
 
     return (
-    
-        <div className>
-         <h2 className="text-center">ORDER LIST</h2>
-           { this.state.loading ?
-            <div className='container'>
-              <div className='center-container-order'>
-                <div>
-                  {this.state.customer ? customer : ''}
-                  <div onClick={(e) => this.handleOnChange2(e)}>clear</div>
-                </div>
+      <div className={cx('Order')}>
+        <h2 className="Order-title">ORDER LIST</h2>
+        {this.state.loading ?
+          <div className='container'>
+            <div className={cx('center-container-order')}>
+              <div className={cx('Order-customer')}>
+                {this.state.customer ? customer : ''}
+                <div className={cx('Order-customer-all')} onClick={(e) => this.handleOnChange2(e)}>Refest </div>
+              </div>
 
-                <div>
-                  { this.state.orders.length > 0 ?
-                    <table className="datatable" border="1">
+              <div className={cx('Order-customer-table')}>
+                {this.state.orders.length > 0 ?
+                  <table className={cx('table')} border="1">
+                    <tbody>
+                      <tr className={cx('header')}>
+                        <th className='fixed'>ID</th>
+                        <th>Creation date</th>
+                        <th>Cust.name</th>
+                        <th>Cust.phone</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                      {orders}
+                    </tbody>
+                  </table>
+                  : 'khách hàng chưa mua gì cả'}
+
+                {this.state.order ?
+                  <div className={cx('Order-customer-table-detail')}>
+                    <h2 className="text-center">ORDER DETAIL</h2>
+                    <table className="" border="1">
                       <tbody>
-                        <tr className="datatable">
-                          <th>ID</th>
-                          <th>Creation date</th>
-                          <th>Cust.name</th>
-                          <th>Cust.phone</th>
-                          <th>Total</th>
-                          <th>Status</th>
-                          <th>Action</th>
+                        <tr className={cx('header')}>
+                          <th>No.</th>
+                          <th>Prod.ID</th>
+                          <th>Prod.name</th>
+                          <th>Image</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                          <th>Amount</th>
                         </tr>
-                        { orders }
-                        <ReactPaginate
-                          previousLabel={'<<'}
-                          nextLabel={">>"}
-                          breakLabel={'...'}
-                          pageCount={this.state.noPages}
-                          marginPagesDisplayed={3}
-                          pageRangeDisplayed={1}
-                          onPageChange={handlePageClick}
-                          containerClassName={'pagination justify-content-center'}
-                          pageClassName={'page-item'}
-                          pageLinkClassName={'page-link'}
-                          previousClassName={'page-item'}
-                          previousLinkClassName={'page-link'}
-                          nextClassName={'page-item'}
-                          nextLinkClassName={'page-link'}
-                          breakClassName={'page-item'}
-                          breakLinkClassName={'page-link'}
-                          activeClassName='active'
-                        /> 
-      
+                        {items}
                       </tbody>
                     </table>
-                  : 'khách hàng chưa mua gì cả'}
-                  
-                  {this.state.order ?
-                    <div className="align-center">
-                      <h2 className="text-center">ORDER DETAIL</h2>
-                      <table className="datatable" border="1">
-                        <tbody>
-                          <tr className="datatable">
-                            <th>No.</th>
-                            <th>Prod.ID</th>
-                            <th>Prod.name</th>
-                            <th>Image</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
-                          </tr>
-                          {items}
-                        </tbody>
-                      </table>
-                    </div>
-                    : <div />}
-                </div>
+                  </div>
+                  : <div />}
               </div>
             </div>
-           : 'loadding....'}
-        
-        </div> 
-    
+          </div>
+          : 'loadding....'}
+
+      </div>
+
     );
   }
   componentDidMount() {
-    this.apiGetOrders(this.state.curPage);
+    this.apiGetOrders();
     this.apiGetCustomers();
   }
   // event-handlers
@@ -195,25 +186,25 @@ class Order extends Component {
       this.setState({ customer: result });
     });
   }
-  apiGetOrders(page) {
+  apiGetOrders() {
     const config = { headers: { 'x-access-token': this.context.token } };
-    axios.get('/api/admin/orders?page=' + page, config).then((res) => {
+    axios.get('/api/admin/orders', config).then((res) => {
       const result = res.data;
-      this.setState({ orders: result.orders, noPages: result.noPages, curPage: result.curPage, loading: true });
-      
-
+      this.setState({ orders: result.orders, ordersAll: result.ordersAll, loading: true });
     });
   }
   handleOnChange(e, id) {
     // console.log('selected option', e.target.value);
     this.setState({ selectedOption: e.target.value, checked: id });
   }
+
   handleOnChange2(e) {
-    this.apiGetOrders(1);
-    this.setState({ selectedOption: '', checked: 'all' ,loading: false});
+    // this.apiGetOrders(1);
+    this.setState({ selectedOption: '', checked: 'all' });
     // console.log(this.state.orders)
     // this.apiGetOrders(curPage);
   }
+
   lnkApproveClick(id) {
     this.apiPutOrderStatus(id, 'APPROVED');
   }
@@ -226,12 +217,13 @@ class Order extends Component {
     axios.put('/api/admin/orders/status/' + id, body, config).then((res) => {
       const result = res.data;
       if (result) {
-        this.apiGetOrders();
+        this.apiGetOrders(this.state.curPage);
       } else {
         alert('SORRY BABY!');
       }
     });
   }
+  
 
 
 }

@@ -74,8 +74,8 @@ function Menu() {
 
 export default Menu;
 
-// class Menu extends Component {
-//   static contextType = MyContext; // using this.context to access global state
+
+
 
 
 //   render() {
