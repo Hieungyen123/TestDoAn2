@@ -34,7 +34,7 @@ router.get('/token', JwtUtil.checkToken, function (req, res) {
 //categories
 router.get('/categories', JwtUtil.checkToken, async function (req, res) {
   const categories = await CategoryDAO.selectAll();
-  console.log(categories)
+  // console.log(categories)
   res.json(categories);
 });
 router.post('/categories', JwtUtil.checkToken, async function (req, res) {
@@ -105,15 +105,13 @@ router.delete('/products/:id', JwtUtil.checkToken, async function (req, res) {
 });
 
 router.get('/orders', JwtUtil.checkToken, async function (req, res) {
-  var orders = await OrderDao.selectAll1();
-  const sizePage = 4;
-  const noPages = Math.ceil(orders.length / sizePage);
-  var curPage = 1;
-  if (req.query.page) curPage = parseInt(req.query.page); // /products?page=xxx
-  const offset = (curPage - 1) * sizePage;
-  orders = orders.slice(offset, offset + sizePage);
+  // const _cid = req.params.cid;
+  // var ordersid = await OrderDao.selectByCustID(_cid);
+  var orders2= await OrderDao.selectAll1();
+  var orders= await OrderDao.selectAll1();
+
   // return
-  const result = { orders: orders, noPages: noPages, curPage: curPage };
+  const result = { orders: orders, ordersAll: orders2};
   res.json(result);
 
 });
