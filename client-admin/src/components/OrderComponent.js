@@ -58,7 +58,7 @@ class Order extends Component {
             <td>{item.status}</td>
             <td>
               {item.status === 'PENDING' ?
-                <div><span className="link" onClick={() => this.lnkApproveClick(item._id)}>APPROVE</span> || <span className="link" onClick={() => this.lnkCancelClick(item._id)}>CANCEL</span></div>
+                <div><span className="link" onClick={() => this.lnkApproveClick(item._id)}>Xác nhận</span> || <span className="link" onClick={() => this.lnkCancelClick(item._id)}>Hủy</span></div>
                 : <div />}
             </td>
           </tr>
@@ -88,7 +88,7 @@ class Order extends Component {
 
       } else {
         customerArray.push(item.customer._id)
-        // console.log(customerArray)
+        console.log(customerArray)
       }
       
     })

@@ -39,6 +39,7 @@ class CategoryDetail extends Component {
             <input type="submit" value="Add New" onClick={(e) => this.btnAddClick(e)} className='btn-add' />
             <input type="submit" value="Update" onClick={(e) => this.btnUpdateClick(e)} className='btn-upda' />
             <input type="submit" value="Delete" onClick={(e) => this.btnDeleteClick(e)} className='btn-dele' />
+            <input type="submit" value="Clear" onClick={(e) => this.btnClearClick(e)} className='btn-clear' />
             <ToastContainer 
               position="top-center"
               autoClose={3000}
@@ -105,6 +106,10 @@ class CategoryDetail extends Component {
         this.notifyWarning('Thêm mới không thành công')
       }
     });
+  }
+  btnClearClick(e) {
+    e.preventDefault();
+    this.setState({ txtID: '', txtName: '' });
   }
 
   //update

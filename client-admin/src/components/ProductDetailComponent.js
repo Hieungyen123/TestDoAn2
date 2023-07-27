@@ -19,19 +19,18 @@ class ProductDetail extends Component {
     };
   }
   render() {
-    // console.log(this.state.categories)
+    
     const cates = this.state.categories.map((cate) => {
-      if (this.props.item != null) {
+      console.log(this.props.item)
+      if (this.props.item != undefined) {
         return (
-        <>
-          <option value="" selected disabled hidden>Choose here</option>
-          <option  value={cate._id} selected={cate._id === this.props.item.category._id}>{cate.name}</option>
-        </>
+          <>
+            <option value={cate._id} selected={cate._id === this.props.item.category._id}>{cate.name}</option>
+          </>
         );
       } else {
         return (
           <>
-            <option value="" selected disabled hidden>Choose here</option>
             <option key={cate._id} value={cate._id}>{cate.name}</option>
           </>
         );
@@ -61,15 +60,21 @@ class ProductDetail extends Component {
               </tr>
               <tr>
                 <td>Category</td>
-                <td><select  onChange={(e) => { this.setState({ cmbCategory: e.target.value }) }}>{cates}</select></td>
+                <td>
+                  <select onChange={(e) => { this.setState({ cmbCategory: e.target.value }) }}>
+                    {/* <option value="" selected disabled hidden>Choose here</option> */}
+                    {cates}
+                  </select>
+                </td>
               </tr>
               <tr>
-                
+
                 <td colSpan="2">
-                  
-                  <input type="submit" value="ADD NEW" onClick={(e) => this.btnAddClick(e)} className='btn-add'/>
-                  <input type="submit" value="UPDATE" onClick={(e) => this.btnUpdateClick(e)} className='btn-upda'/>
-                  <input type="submit" value="DELETE" onClick={(e) => this.btnDeleteClick(e)} className='btn-dele'/>
+
+                  <input type="submit" value="ADD NEW" onClick={(e) => this.btnAddClick(e)} className='btn-add' />
+                  <input type="submit" value="UPDATE" onClick={(e) => this.btnUpdateClick(e)} className='btn-upda' />
+                  <input type="submit" value="DELETE" onClick={(e) => this.btnDeleteClick(e)} className='btn-dele' />
+                  <input type="submit" value="Clear" onClick={(e) => this.btnClearClick(e)} className='btn-clear' />
                   <ToastContainer
                     position="top-center"
                     autoClose={3000}
@@ -82,12 +87,12 @@ class ProductDetail extends Component {
                     pauseOnHover
                     theme="light"
                   />
-                  
+
                 </td>
               </tr>
               <tr className='productDetail-img'>
-                <td colSpan="2"> 
-                     <img src={this.state.imgProduct ? this.state.imgProduct : img}   width="200px" height="200px" alt="" />     
+                <td colSpan="2">
+                  <img src={this.state.imgProduct ? this.state.imgProduct : img} width="200px" height="200px" alt="" />
                 </td>
               </tr>
             </tbody>
@@ -106,7 +111,7 @@ class ProductDetail extends Component {
     draggable: true,
     progress: undefined,
     theme: "light",
-    });
+  });
 
 
   notifyWarning = (message) => toast.warn(message, {
@@ -118,7 +123,7 @@ class ProductDetail extends Component {
     draggable: true,
     progress: undefined,
     theme: "light",
-    });  
+  });
 
 
   componentDidMount() {
@@ -154,7 +159,7 @@ class ProductDetail extends Component {
       this.setState({ categories: result });
     });
   }
-  
+
 
 
   //add product
@@ -178,14 +183,17 @@ class ProductDetail extends Component {
       const result = res.data;
       if (result) {
         this.notifySuccess('Thêm thành công')
-        this.setState({ txtPrice:"",txtName:"",txtID:"",cmbCategory:"",imgProduct:""})
+        this.setState({ txtPrice: "", txtName: "", txtID: "", cmbCategory: "", imgProduct: "" })
         this.apiGetProducts();
       } else {
         this.notifyWarning('Không thể thực hiện hành động')
       }
     });
   }
-  
+  btnClearClick(e) {
+    e.preventDefault();
+    this.setState({ txtPrice: "", txtName: "",  cmbCategory: "", imgProduct: "" ,txtID: ""})
+  }
 
 
   // update product
@@ -237,7 +245,7 @@ class ProductDetail extends Component {
       const result = res.data;
       if (result) {
         this.notifySuccess('Xóa thành công')
-        this.setState({ txtPrice:"",txtName:"",txtID:"",cmbCategory:"",imgProduct:""})
+        this.setState({ txtPrice: "", txtName: "", txtID: "", cmbCategory: "", imgProduct: "" })
         this.apiGetProducts();
       } else {
         this.notifyWarning('Không thể thực hiện hành động')
