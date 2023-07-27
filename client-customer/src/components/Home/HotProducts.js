@@ -20,7 +20,6 @@ function HotProducts({ type }) {
 
   
 
-
   return (
     <div className="HotProducts">
       <div className="HotProductsTitle">
@@ -33,9 +32,9 @@ function HotProducts({ type }) {
         </div>
       </div>
       <div className="ProductHotList">
-        {hotProduct?.map((item) => 
+         {hotProduct.length > 0 ? hotProduct?.map((item) => 
            <Card item={item} key={item._id} /> 
-        )}
+        ) : ''}
       </div>
     </div>
   );

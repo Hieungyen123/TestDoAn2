@@ -16,7 +16,7 @@ function ChangePass() {
 
     const apiPutCustomer = (id, customer) => {
         const config = { headers: { 'x-access-token': Context.token } };
-        axios.put('/api/customer/customers/' + id, customer, config).then((res) => {
+        axios.put('/api/customer/customers/myprofile/profile/' + id, customer, config).then((res) => {
           const result = res.data;
           if (result) {
             Context.setCustomer(result);

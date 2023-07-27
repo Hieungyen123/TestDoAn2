@@ -78,10 +78,11 @@
         .ShowCart-cartInf-Content {
           height: 350px;
           padding: 10px 0;
+          overflow-y: scroll;
+            overflow-wrap: 50px;
           .ShowCart-cartInf-products {
             padding: 5px 0  ;
-            overflow-y: scroll;
-            overflow-wrap: 50px;
+            
             // &::-webkit-scrollbar {
             //   display: none;
             // }

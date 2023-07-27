@@ -18,74 +18,6 @@ import MyContext from '../contexts/MyContext';
 import img from '../img/logo.png'
 
 
-//     super(props);
-//     this.state = {
-//       categories: [],
-//       handleuser: '',
-//       handleCart: true,
-//       handleCategories: ''
-//     };
-//   }
-//   render() {
-//     const cx = classNames.bind(styles)
-
-//     // const cates = this.state.categories.map((item) => {
-//     //   return (
-//     //     <li key={item._id} className="menu"><a href="#">{item.name}</a></li>
-//     //   );
-//     // });
-
-//     return (
-//       <div className={cx('Navbar')}>
-//         <div className={cx('Wrapper')}>
-//           <div className={cx('left')}>
-//             <div className={cx('item')}>
-//               <KeyboardArrowDownIcon />
-//               <a className={cx('link')} to="/products">Categories</a>
-//             </div>
-//             <div className={cx('item')}><a className={cx('link')} to="/">HomePage</a></div>
-//             <div className={cx('item')}>
-
-//             </div>
-//           </div>
-//           <div className={cx('center')}>
-//             <a className={cx('link')} to="/" >Unowned Store</a>
-//           </div>
-//           <div className={cx('right')}>
-
-//             <div className={cx('icons')}>
-//               <div className={cx('search-bar')}>
-//                 <SearchIcon  className={cx('icon')} />
-//                 <input type="text" placeholder="Tìm kiếm..."/>
-//               </div>
-//               <PersonOutlineOutlinedIcon />
-//               {/* <FavoriteBorderOutlinedIcon /> */}
-//               <div className={cx('cart-icon')}>
-//                 <ShoppingCartOutlinedIcon onClick={() => this.setState({handleCart : !this.state.handleCart})} />
-//                 {/* <span>{products.length}</span> */}
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//         {handleCart && 'cart nè'}
-//       </div>
-//     )
-//   }
-//   componentDidMount() {
-//     this.apiGetCategories();
-//   }
-//   // apis
-//   apiGetCategories() {
-//     axios.get('/api/customer/categories').then((res) => {
-//       const result = res.data;
-//       this.setState({ categories: result });
-//     });
-//   }
-// }
-// export default Menu;
-
-
-
 function Navbar() {
     const Context = useContext(MyContext);
     // console.log(Context)
@@ -131,14 +63,14 @@ function Navbar() {
                                     <div className={cx('user-bar')}>
                                         {/* <LockPersonOutlinedIcon className={cx('user-icon')} onClick={() => HandleUser()} /> */}
 
-                                        <div><Link to="/login"><p>Đăng Nhập</p></Link></div> /
-                                        <div><Link to="/signup"><p> Đăng Kí</p></Link></div> /  
-                                        <div><Link to="/active"><p>Active</p></Link></div> 
+                                        <div><Link to="/login" onClick={() => {setOpen(false)}}><p>Đăng Nhập</p></Link></div> /
+                                        <div><Link to="/signup" onClick={() => {setOpen(false)}}><p> Đăng Kí</p></Link></div> /  
+                                        <div><Link to="/active" onClick={() => {setOpen(false)}}><p>Active</p></Link></div> 
 
                                     </div>
                                 )
                                 : (
-                                    <div className={cx('user-bar')}>
+                                    <div  onClick={() => {setOpen(false)}} className={cx('user-bar')}>
                                         <Link to={'/myprofile/profile/' + Context.customer._id}><AccountCircleOutlinedIcon className={cx('user-icon')} /></Link>
                                     </div>
                                 )
