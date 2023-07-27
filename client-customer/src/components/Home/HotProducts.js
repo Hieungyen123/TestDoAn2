@@ -28,7 +28,7 @@ function HotProducts({ type }) {
           <h1>{type} Products</h1>
         </div>
         <div  className="HotProducts-more">
-          <p>Xem thêm <ArrowForwardIosIcon className="icon"/> </p>
+          <Link to={'/products'}>Xem thêm <ArrowForwardIosIcon className="icon"/> </Link>
         </div>
       </div>
       <div className="ProductHotList">
