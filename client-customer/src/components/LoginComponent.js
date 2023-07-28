@@ -68,7 +68,7 @@ class Login extends Component {
         this.context.setCustomer(result.customer);
         this.props.navigate('/home');
       } else {
-        this.context.SetnotifyWarning('Tài khoản hoặc mật khẩu không đúng')
+        this.context.SetnotifyWarning('Tài khoản,mật khẩu không đúng hoặc bạn chưa active account')
       }
     });
   }
